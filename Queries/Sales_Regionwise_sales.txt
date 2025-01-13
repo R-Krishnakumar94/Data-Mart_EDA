@@ -1,0 +1,6 @@
+## What are the total sales for each region for each month? ##
+
+Select month_number,region, SUM(sales)
+from clean_weekly_sales
+group by month_number,region
+order by SUM(sales) DESC

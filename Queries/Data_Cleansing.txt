@@ -1,0 +1,26 @@
+## Data Cleansing
+
+CREATE TABLE clean_weekly_sales as
+Select week_date,
+EXTRACT (WEEK FROM week_date) as week_number,
+EXTRACT (MONTH from week_date) as month_number,
+EXTRACT (YEAR from week_date) as  calendar_year,
+region, platform,
+Case
+WHEN segment = 'null' then 'Unknown'
+else segment
+END as segment,
+CASE
+WHEN segment like '%1%' then 'Young Adults'
+WHEN segment like '%2%' then 'Middle Aged'
+WHEN RIGHT(segment,1) in ('3','4') then 'Retirees'
+else 'Unknown'
+END as age_band,
+CASE
+WHEN LEFT(segment,1) = 'C' then 'Couples'
+WHEN LEFT(segment,1) = 'F' then 'Families'
+else 'Unknown'
+END as demographic,
+customer_type,transactions,sales,
+ROUND(sales/transactions,2) as avg_transaction
+from weekly_sales;

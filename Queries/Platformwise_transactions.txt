@@ -1,0 +1,5 @@
+## Total count of transactions for each platform ##
+
+select platform, count(transactions)
+from clean_weekly_sales
+group by platform

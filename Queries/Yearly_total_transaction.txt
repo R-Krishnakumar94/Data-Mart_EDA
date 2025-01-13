@@ -1,0 +1,6 @@
+## Year wise total transactions ##
+
+Select calendar_year,SUM(transactions)
+from clean_weekly_sales
+group by calendar_year
+order by SUM (transactions) DESC;

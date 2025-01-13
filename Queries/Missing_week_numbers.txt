@@ -1,0 +1,32 @@
+Which week numbers are missing from the dataset? 
+
+-- Create the table with an auto-incrementing primary key
+CREATE TABLE seq100 (
+    x SERIAL PRIMARY KEY
+);
+
+-- Insert the first 50 rows
+DO $$ 
+BEGIN
+    FOR i IN 1..50 LOOP
+        INSERT INTO seq100 DEFAULT VALUES;
+    END LOOP;
+END $$;
+
+-- Insert rows with values x + 50
+INSERT INTO seq100 (x)
+SELECT x + 50
+FROM seq100;
+
+
+##To create master sequence e##
+create table seq52 as (Select * from seq100 limit 52)
+
+select distinct x as week_day from seq52
+where x not in (Select distinct week_number from clean_weekly_sales);
+
+## To cross check ##
+select distinct week_number from clean_weekly_sales
+order by week_number asc
+
+
